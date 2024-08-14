@@ -5,8 +5,8 @@ class Command(BaseCommand):
     help = 'Greeting users'
 
     def add_arguments(self, parser):
+        # This allows taken a command in our arguments
         parser.add_argument('name', type=str, help='specifies user name')
-
 
     def handle(self, *args, **kwargs):
         name = kwargs['name']
