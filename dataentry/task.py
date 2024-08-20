@@ -4,7 +4,7 @@ from django.core.management import call_command
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
-from .utils import send_email
+from .utils import send_email, generate_csv_file
 
 
 
@@ -34,3 +34,21 @@ def import_data_task(file_path:str, model_name:str):
     send_email(subject, message, to_email)
     
     return 'Data imported successfully!'
+
+
+@app.task
+def export_data_task(model_name):
+    try:
+        call_command('exportdata', model_name)
+    except Exception as e:
+        raise e 
+    
+    file_path = generate_csv_file(model_name)
+    
+    
+    # Send email to client
+    mail_subject = 'Data Exported'
+    mail_message = 'This email is data expected'
+    to_email = settings.DEFAULT_TO_EMAIL
+    send_email(mail_subject, mail_message, to_email, attachment=file_path)
+    return "Data exported successfully!"

@@ -3,17 +3,16 @@ from django.core.management.base import BaseCommand, CommandError
 # from dataentry.models import Student, Customer
 from django.apps import apps 
 import datetime 
+from dataentry.utils import generate_csv_file
 
 class Command(BaseCommand):
     help = 'Export data from database model to csv file'
 
     def add_arguments(self, parser):
-        parser.add_argument('file_path', type=str, help='Enter the csv file path')
         parser.add_argument('model_name', type=str, help='Enter the model name')
             
 
     def handle(self, *args, **kwargs):
-        file_path = kwargs['file_path']
         model_name = kwargs['model_name'].capitalize()
 
         # Now we search for the model
@@ -31,9 +30,9 @@ class Command(BaseCommand):
         else:
              data = model.objects.all()
         
-        # Getting the timestamp
-        timestamp = datetime.datetime.now().strftime("%d-%m-%Y")
-        file_path = f'{file_path}_{timestamp}.csv'
+        # generate csv file path
+        file_path = generate_csv_file(model_name)
+        
         
         with open(file_path, 'w', newline='') as file:
             writer = csv.writer(file)

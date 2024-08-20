@@ -3,7 +3,8 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from .utils import check_csv_errors, get_all_custom_models
 from uploads.models import Upload
-from .task import import_data_task
+from django.core.management import call_command
+from .task import import_data_task, export_data_task
 # Now we can use the command in dataentry\management\commands python files using
 
 # import the messages from django
@@ -46,3 +47,20 @@ def import_data(request):
             'custom_models': custom_models
         }
     return render(request, 'dataentry/importdata.html', context)
+
+
+def export_data(request):
+    if request.method == 'POST':
+        model_name = request.POST.get('model_name')
+        export_data_task.delay(model_name)
+
+        messages.success(request, 'Data exported successfully. you will get an an email soon!')
+        return redirect('export_data')
+
+    else:
+        
+        custom_models = get_all_custom_models()
+        context = {
+                'custom_models': custom_models
+            }
+    return render(request, 'dataentry/exportdata.html', context)
