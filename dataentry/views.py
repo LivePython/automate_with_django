@@ -1,12 +1,14 @@
 import os
 from django.conf import settings
 from django.shortcuts import redirect, render
-from .utils import get_all_custom_models
+from .utils import check_csv_errors, get_all_custom_models
 from uploads.models import Upload
+from .task import import_data_task
 # Now we can use the command in dataentry\management\commands python files using
-from django.core.management import call_command
+
 # import the messages from django
 from django.contrib import messages
+
 
 # Create your views here.
 def import_data(request):
@@ -23,22 +25,19 @@ def import_data(request):
         # file_absolute_path = upload.file.path
 
         file_path = upload.file.path
-        
-        # trigger inportdata coomand
+
+        # check for csv error
         try:
-            # this helps us to use the commands created earlier
-            call_command('importdata', file_path, model_name)
+            check_csv_errors(file_path, model_name)
+        except Exception as d:
+            messages.error(request, d)
+            return redirect('import_data')
 
-            # Compose the alert messages
-            messages.success(request, 'Data imported successfully!')
-        except Exception as e:
-
-            messages.error(request, e)
-            
+        # Handle the data importantion task using celery
+        import_data_task.delay(file_path, model_name)
+        messages.success(request, 'Your data is imported, you will get an email soon!')
 
         return redirect('import_data')
-
-
 
     else:
         custom_models = get_all_custom_models()
