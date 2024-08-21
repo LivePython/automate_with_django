@@ -7,7 +7,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='Homapage'), # project homepage
+    path('', views.home, name='home'), # project homepage
     path('dataentry/', include('dataentry.urls')),
     path('celery-test/', views.celery_test),
 
