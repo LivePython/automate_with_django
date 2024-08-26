@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "crispy_bootstrap5", #installed: pip install cripsy-bootstrap5
+    'crispy_forms', # installed: pip install django-cripsy-forms
     'dataentry',
     'uploads'
 ]
@@ -148,5 +150,8 @@ DEFAULT_FROM_EMAIL = 'Automate with Djano <graciousfx@gmail.com>'
 DEFAULT_TO_EMAIL = 'olatunjiayomi18@gmail.com'
 # We cant just expose our email credetials to the world. We need to use
 # the python-decouple package
+
+# Django Cripsy form setting
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 
