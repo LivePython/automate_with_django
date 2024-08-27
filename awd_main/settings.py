@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5", #installed: pip install cripsy-bootstrap5
     'crispy_forms', # installed: pip install django-cripsy-forms
     'dataentry',
+    'emails',
     'uploads'
 ]
 
@@ -146,8 +147,9 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'Automate with Djano <graciousfx@gmail.com>'
-DEFAULT_TO_EMAIL = 'olatunjiayomi18@gmail.com'
+DEFAULT_FROM_EMAIL = 'olatunjiayomi18@gmail.com'
+DEFAULT_TO_EMAIL = 'graciousfx@gmail.com'
+
 # We cant just expose our email credetials to the world. We need to use
 # the python-decouple package
 

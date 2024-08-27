@@ -61,10 +61,12 @@ def check_csv_errors(file_path, model_name):
     return model
 
 
-def send_email(email_subject, email_message, to_email, attachment=None):
+def send_email_attachment(subject, message, to_email, attachment=None):
     try:
         from_email = settings.DEFAULT_FROM_EMAIL
-        mail = EmailMessage(email_subject, email_message, from_email, to=[to_email])
+        
+        mail = EmailMessage(subject=subject, body=message, from_email=from_email, to=[to_email])
+        
         if attachment is not None:
             mail.attach_file(attachment)
         mail.send()
