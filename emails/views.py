@@ -2,12 +2,12 @@ from django.shortcuts import redirect, render
 from .forms import EMailForm
 # import the messages from django
 from django.contrib import messages
-from dataentry.utils import send_email_attachment
+from dataentry.utils import send_email_notification
 from django.conf import settings
 
 # Create your views here.
 
-def send_email(request):
+def send_email_attach(request):
     if request.method == 'POST':
         email_form = EMailForm(request.POST, request.FILES)
         
@@ -17,7 +17,13 @@ def send_email(request):
             email_subject = request.POST.get('subject')
             email_message = request.POST.get('body')
             to_email = settings.DEFAULT_TO_EMAIL
-            send_email_attachment(email_subject, email_message, to_email)
+            
+            try:
+                send_email_notification(email_subject, email_message, [to_email])
+            except Exception as a:
+                messages.error(request, f"Email was not sent - {a}")
+                print(a)
+                return redirect('send_email')
 
             # Display a success message 
             messages.success(request, "Email Sent Successfully!")

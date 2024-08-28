@@ -4,6 +4,7 @@ from email.message import EmailMessage
 import os
 from django.core.management.base import CommandError
 
+
 from django.apps import apps
 from django.db import DataError 
 
@@ -61,17 +62,28 @@ def check_csv_errors(file_path, model_name):
     return model
 
 
-def send_email_attachment(subject, message, to_email, attachment=None):
-    try:
-        from_email = settings.DEFAULT_FROM_EMAIL
+# def send_email_attachment(subject, message, to_email, attachment=None):
+#     try:
+#         from_email = settings.DEFAULT_FROM_EMAIL
         
-        mail = EmailMessage(subject=subject, body=message, from_email=from_email, to=[to_email])
-        
-        if attachment is not None:
-            mail.attach_file(attachment)
-        mail.send()
-    except Exception as e:
-        raise e
+#         mail = EmailMessage(subject=subject, body=message, from_email=from_email, to=[to_email])
+
+#         if attachment is not None:
+#             mail.attach_file(attachment)
+#         mail.send()
+#     except Exception as e:
+#         raise e
+
+def send_email_notification(subject, message, recipient_list, attachments=None):
+    from_email = settings.DEFAULT_FROM_EMAIL
+    email = EmailMessage(subject, message, from_email, recipient_list,)
+
+    if attachments:
+        for attachment in attachments:
+            email.attach_file(attachment)
+
+    email.send()
+
 
 def generate_csv_file(model_name):
     # Getting the timestamp

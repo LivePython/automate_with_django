@@ -150,6 +150,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'olatunjiayomi18@gmail.com'
 DEFAULT_TO_EMAIL = 'graciousfx@gmail.com'
 
+
 # We cant just expose our email credetials to the world. We need to use
 # the python-decouple package
 
