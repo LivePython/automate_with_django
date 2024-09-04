@@ -52,3 +52,6 @@ def export_data_task(model_name):
     to_email = settings.DEFAULT_TO_EMAIL
     send_email_notification(subject, message, to_email, attachment=file_path)
     return "Data exported successfully!"
+
+
+

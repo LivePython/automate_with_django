@@ -4,6 +4,8 @@ from .forms import EMailForm
 from django.contrib import messages
 from dataentry.utils import send_email_notification
 from django.conf import settings
+from .models import Subsriber
+from .task import sending_email_task
 
 # Create your views here.
 
@@ -12,18 +14,30 @@ def send_email_attach(request):
         email_form = EMailForm(request.POST, request.FILES)
         
         if email_form.is_valid():
-            email_form.save()
+            email_form = email_form.save()
             # Send an email
             email_subject = request.POST.get('subject')
             email_message = request.POST.get('body')
-            to_email = settings.DEFAULT_TO_EMAIL
+            email_list = request.POST.get('email_list')
             
-            try:
-                send_email_notification(email_subject, email_message, [to_email])
-            except Exception as a:
-                messages.error(request, f"Email was not sent - {a}")
-                print(a)
-                return redirect('send_email')
+            # Lets access the selected email list 
+            email_list = email_form.email_list
+            
+            # extract email addresses using email list in model
+            subscribers = Subsriber.objects.filter(email_list=email_list)
+            # Getting email list in the subscriber list
+            to_email = [email.email_address for email in subscribers]
+         
+
+            if email_form.attachment:
+                attachment = email_form.attachment.path # this takes care of the attachment
+                
+            else:
+                attachment = None
+
+            # celery handles the sending email functionalities
+            sending_email_task.delay(email_subject, email_message, to_email, attachment)
+            
 
             # Display a success message 
             messages.success(request, "Email Sent Successfully!")

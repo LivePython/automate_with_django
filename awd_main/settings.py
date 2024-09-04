@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     "crispy_bootstrap5", #installed: pip install cripsy-bootstrap5
     'crispy_forms', # installed: pip install django-cripsy-forms
     'dataentry',
@@ -139,7 +140,7 @@ MESSAGE_TAGS = {
 }
 
 # setting up the celery url
-CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://localhost:6379'  # celery -A awd_main worker --loglevel=info --pool=solo and use 'redis-server' to activate the redis
 
 #  Email configuration in django
 EMAIL_HOST = config('EMAIL_HOST')
@@ -158,3 +159,9 @@ DEFAULT_TO_EMAIL = 'graciousfx@gmail.com'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 
+# Adding more features and setting for the ckeditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'height': 300,
+    },
+}

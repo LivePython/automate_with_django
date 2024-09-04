@@ -1,13 +1,13 @@
 # The utils.py file is created to store utility functions
 import csv
-from email.message import EmailMessage
+from django.core.mail import EmailMessage
 import os
 from django.core.management.base import CommandError
 
 
 from django.apps import apps
 from django.db import DataError 
-
+ 
 from django.conf import settings
 
 from datetime import datetime
@@ -62,34 +62,28 @@ def check_csv_errors(file_path, model_name):
     return model
 
 
-# def send_email_attachment(subject, message, to_email, attachment=None):
-#     try:
-#         from_email = settings.DEFAULT_FROM_EMAIL
-        
-#         mail = EmailMessage(subject=subject, body=message, from_email=from_email, to=[to_email])
 
-#         if attachment is not None:
-#             mail.attach_file(attachment)
-#         mail.send()
-#     except Exception as e:
-#         raise e
-
-def send_email_notification(subject, message, recipient_list, attachments=None):
+def send_email_notification(subject, message, recipient_list, attachment=None):
     from_email = settings.DEFAULT_FROM_EMAIL
-    email = EmailMessage(subject, message, from_email, recipient_list,)
-
-    if attachments:
-        for attachment in attachments:
+    email = EmailMessage(subject, message, from_email, to=recipient_list)
+    try:
+        if attachment:
             email.attach_file(attachment)
 
-    email.send()
+        # Register in the code te html content
+        email.content_subtype = 'html'
+        email.send()
+
+    except Exception as g:
+        raise g
+
 
 
 def generate_csv_file(model_name):
     # Getting the timestamp
     export_dir = 'exported_data'
     timestamp = datetime.now().strftime("%d-%m-%Y")
-    file_name = f'Exported_data_{timestamp}.csv'
+    file_name = f'Exported_data_{model_name}_{timestamp}.csv'
 
     file_path = os.path.join(settings.MEDIA_ROOT, export_dir, file_name)
     return file_path
