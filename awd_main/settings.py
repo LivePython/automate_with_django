@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'crispy_forms', # installed: pip install django-cripsy-forms
     'dataentry',
     'emails',
-    'uploads'
+    'uploads',
+    'anymail' # this is used to add ESP like sendgrid API. pip install django-anymail
 ]
 
 MIDDLEWARE = [
@@ -128,6 +129,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR /'media' # then we go to the urls.py file to register it
 
+
+# Setting for message in django
 from django.contrib.messages import constants as messages
 
 # Optional: You can customize message tags like this:
@@ -139,15 +142,29 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
+
 # setting up the celery url
 CELERY_BROKER_URL = 'redis://localhost:6379'  # celery -A awd_main worker --loglevel=info --pool=solo and use 'redis-server' to activate the redis
 
+
 #  Email configuration in django
+#  we could use Brevo API as shown below 
+
+# EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
+# ANYMAIL = {
+#     "SENDINBLUE_API_KEY": config("SENDINBLUE_API_KEY"),
+    
+# }
+
+# OR USE GMAIL SMTP BELOW
+# The settings below is for the gmail smtp 
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
+
+
 DEFAULT_FROM_EMAIL = 'olatunjiayomi18@gmail.com'
 DEFAULT_TO_EMAIL = 'graciousfx@gmail.com'
 
@@ -165,3 +182,4 @@ CKEDITOR_CONFIGS = {
         'height': 300,
     },
 }
+

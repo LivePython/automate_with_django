@@ -13,6 +13,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('email/', include('emails.urls'))
+    path('emails/', include('emails.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # this is the setting for having a media file saved in media folder
