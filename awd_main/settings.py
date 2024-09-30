@@ -17,7 +17,8 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', cast=bool) # the cost=bool, will change the 'True' -> string to True -> bool
 
-ALLOWED_HOSTS = []
+# The * added to the list below is to enable domain work for the app
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -30,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',
-    "crispy_bootstrap5", #installed: pip install cripsy-bootstrap5
+    "crispy_bootstrap5", # installed: pip install cripsy-bootstrap5
     'crispy_forms', # installed: pip install django-cripsy-forms
     'dataentry',
     'emails',
@@ -118,7 +119,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR /'static'
 STATICFILES_DIRS = [
     'awd_main/static',
-]
+] # this is useful during deployment
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -144,7 +145,9 @@ MESSAGE_TAGS = {
 
 
 # setting up the celery url
-CELERY_BROKER_URL = 'redis://localhost:6379'  # celery -A awd_main worker --loglevel=info --pool=solo and use 'redis-server' to activate the redis
+CELERY_BROKER_URL = 'redis://localhost:6379'  
+# celery -A awd_main worker --loglevel=info --pool=solo 
+# and use 'redis-server' to activate the redis
 
 
 #  Email configuration in django
@@ -183,3 +186,6 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+# The line of code below are needed for the ngrok like domain to work well
+CSRF_TRUSTED_ORIGINS = ['https://473d-197-211-58-113.ngrok-free.app']
+BASE_URL = 'https://ade8-197-211-58-113.ngrok-free.app'

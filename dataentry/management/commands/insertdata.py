@@ -20,7 +20,7 @@ class Command(BaseCommand):
         for data in data_set:
             # checking for data availability before storing
             roll_num = data['roll_num']
-            existing_data = Student.objects.filter(roll_num=roll_num).exists()
+            existing_data = Student.objects.filter(roll_num=roll_num).exists() # This will return true or false
             if not existing_data:
                 Student.objects.create(roll_num=data['roll_num'], name=data['name'], age=data['age'])
             else:

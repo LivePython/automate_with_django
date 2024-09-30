@@ -16,3 +16,4 @@ urlpatterns = [
     path('emails/', include('emails.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # this is the setting for having a media file saved in media folder
+

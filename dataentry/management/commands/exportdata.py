@@ -42,6 +42,7 @@ class Command(BaseCommand):
             writer.writerow([field.name for field in model._meta.fields])
 
             # write data rows
+            # The data is the all model object
             for dat in data:
                 writer.writerow([getattr(dat, field.name) for field in model._meta.fields])
         

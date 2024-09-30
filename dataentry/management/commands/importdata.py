@@ -12,7 +12,7 @@ class Command(BaseCommand):
     help = 'import data from CSV file'
 
     def add_arguments(self, parser):
-        # This allows taken a command in our arguments
+        # This allows taking a command in our arguments
         parser.add_argument('file_path', type=str, help='Add csv file path')
         parser.add_argument('model_name', type=str, help='Add model name')
 

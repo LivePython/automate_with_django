@@ -17,10 +17,10 @@ def import_data(request):
         file_path = request.FILES.get('file_path')
         model_name = request.POST.get('model_name')
 
-        # lets record the uploaded file in uplods
+        # lets record the uploaded file in uploads
         upload = Upload.objects.create(file=file_path, model_name=model_name)
 
-        # construct the full path
+        ## construct the full path
         # relative_path = str(upload.file.url)
         # full_path = str(settings.BASE_DIR)
         # file_absolute_path = upload.file.path
@@ -34,7 +34,7 @@ def import_data(request):
             messages.error(request, d)
             return redirect('import_data')
 
-        # Handle the data importantion task using celery
+        # Handle the data importation task using celery
         import_data_task.delay(file_path, model_name)
         messages.success(request, 'Your data is imported, you will get an email soon!')
 

@@ -55,11 +55,11 @@ def send_email_attach(request):
         return render(request, 'emails/send_email.html', context)
 
 
-def track_open(request):
+def track_open(request, unique_id):
     # Logic to store the open tracking information
     return
 
-def track_click(request):
+def track_click(request, unique_id):
     # Logic to store the click tracking information
     return
 

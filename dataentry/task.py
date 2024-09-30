@@ -19,8 +19,8 @@ def import_data_task(file_path:str, model_name:str):
     # trigger inportdata coomand
     try:
         # this helps us to use the commands created earlier
-
         # call_command('importdata', file_path, model_name)
+        
         call_command('importdata', file_path, model_name)
 
     except Exception as e:
