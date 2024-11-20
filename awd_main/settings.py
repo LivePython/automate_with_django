@@ -15,7 +15,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = config('DEBUG', cast=bool) # the cost=bool, will change the 'True' -> string to True -> bool
+DEBUG = config('DEBUG', cast=bool) # the cast=bool, will change the 'True' -> string to True -> bool
 
 # The * added to the list below is to enable domain work for the app
 ALLOWED_HOSTS = ['*']
@@ -31,11 +31,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',
-    "crispy_bootstrap5", # installed: pip install cripsy-bootstrap5
-    'crispy_forms', # installed: pip install django-cripsy-forms
+    "crispy_bootstrap5", # installed: pip install crispy-bootstrap5
+    'crispy_forms', # installed: pip install django-crispy-forms
     'dataentry',
     'emails',
     'uploads',
+    'image_compression',
     'anymail' # this is used to add ESP like sendgrid API. pip install django-anymail
 ]
 
@@ -164,7 +165,7 @@ CELERY_BROKER_URL = 'redis://localhost:6379'
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') # this will be the 16 digit APP password
 EMAIL_USE_TLS = True
 
 
@@ -187,5 +188,5 @@ CKEDITOR_CONFIGS = {
 }
 
 # The line of code below are needed for the ngrok like domain to work well
-CSRF_TRUSTED_ORIGINS = ['https://473d-197-211-58-113.ngrok-free.app']
-BASE_URL = 'https://ade8-197-211-58-113.ngrok-free.app'
+CSRF_TRUSTED_ORIGINS = ['https://699a-129-205-124-224.ngrok-free.app']
+BASE_URL = 'https://699a-129-205-124-224.ngrok-free.app'

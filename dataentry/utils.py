@@ -17,7 +17,7 @@ from emails.models import Email, Sent, EmailTracking, Subsriber
 
 
 def get_all_custom_models():
-    # This function will help to get al the models that exist in the entire project
+    # This function will help to get all the models that exist in the entire project
     default_models = ['ContentType', 'Session', 'LogEntry', 'Permission', 'Group', 'Upload', 'User']
 
     # get all the apps
@@ -121,10 +121,11 @@ def send_email_notification(subject, message, recipient_list, attachment=None, e
             email.send()
 
         # Store the total sent emails inside the Sent model
-        if email:
+        if email_id:
+            email_instance = Email.objects.get(pk=email_id)  # Fetch the Email model instance
             sent = Sent()
-            sent.email = email
-            sent.total_sent = email.email_list.count_emails()
+            sent.email = email_instance  # Use the model instance, not EmailMessage
+            sent.total_sent = email_instance.email_list.count_emails()  # Use the model instance here
             sent.save()
 
     except Exception as g:

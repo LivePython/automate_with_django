@@ -1,12 +1,13 @@
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import EMailForm
-# import the messages from django
-from django.contrib import messages
+from django.contrib import messages  # import the messages from django
 from dataentry.utils import send_email_notification
 from django.conf import settings
-from .models import Email, Subsriber, Sent
+from .models import Email, Subsriber, Sent, EmailTracking
 from .task import sending_email_task
 from django.db.models import Sum
+from django.utils import timezone
 
 # Create your views here.
 
@@ -44,7 +45,6 @@ def send_email_attach(request):
             # Display a success message 
             messages.success(request, "Email Sent Successfully!")
             return redirect('send_email')
-
          
     else:
         email = EMailForm()
@@ -57,11 +57,35 @@ def send_email_attach(request):
 
 def track_open(request, unique_id):
     # Logic to store the open tracking information
-    return
+    try:
+        email_tracking = EmailTracking.objects.get(unique_id=unique_id)
+        if not email_tracking.opened_at:
+            email_tracking.opened_at = timezone.now()
+            email_tracking.save()
+
+            return HttpResponse("Email opened successfully")
+        else:
+            return HttpResponse("Email is already opened")
+    except:
+        return HttpResponse('Email tracking record not found')
+    
 
 def track_click(request, unique_id):
     # Logic to store the click tracking information
-    return
+    try:
+        email_tracking = EmailTracking.objects.get(unique_id=unique_id)
+        url = request.GET.get('url')
+        if not email_tracking.clicked_at:
+            email_tracking.clicked_at = timezone.now()
+            email_tracking.save()
+            return HttpResponseRedirect(url) # this redirect the user to the url
+        
+        else:
+            return HttpResponseRedirect(url)
+        
+    except:
+        return HttpResponse('Email clicking record not found')
+
 
 def track_dashboard(request):
     emails = Email.objects.all().annotate(total_sent=Sum('sent__total_sent'))

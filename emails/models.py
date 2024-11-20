@@ -1,5 +1,6 @@
 from django.db import models
-from ckeditor.fields import RichTextField #this is ckeditor package used for richtext feature usd in the body of the Email class
+from ckeditor.fields import RichTextField 
+#this is ckeditor package used for richtext feature usd in the body of the Email class
 
 
 # Create your models here.
@@ -27,7 +28,8 @@ class Email(models.Model):
     email_list = models.ForeignKey(List, on_delete=models.CASCADE)
     subject = models.CharField(max_length=100)
     # body = models.TextField(max_length=5000) 
-    # We ar not using the normal text field for the body. We are using the richtextfield here. Remember to add js scripts to the base.html
+    # We are not using the normal text field for the body. 
+    # We are using the richtextfield here. Remember to add js scripts to the base.html
 
     body = RichTextField()
 
@@ -48,7 +50,6 @@ class EmailTracking(models.Model):
     def __str__(self):
         return self.email.subject
     
-
 
 class Sent(models.Model):
     email = models.ForeignKey(Email, on_delete=models.CASCADE, null=True, blank=True)
