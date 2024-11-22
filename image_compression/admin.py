@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CompressImage
+from . import models
 from django.utils.html import format_html  # This is use to work wit html tags in functions in django
 
 
@@ -28,6 +28,6 @@ class CompressImageAdmin(admin.ModelAdmin):
     list_display = ('user', 'thumbnail','original_image_size', 'compressed_image_size', 'compressed_at')
     
     
-admin.site.register(CompressImage, CompressImageAdmin)
+admin.site.register(models.CompressImage, CompressImageAdmin)
 
 # Register your models here.
