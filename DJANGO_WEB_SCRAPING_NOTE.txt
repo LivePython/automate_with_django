@@ -1,0 +1,85 @@
+For web scrapping, we need tools/libraries like 
+    BeautifulSoup and requests
+
+To learn scrapping, we can use https://webscraper.io
+
+Here is an example of how web scrapping can be done on the website above 
+
+        from bs4 import BeautifulSoup as bs
+        import requests
+
+        url = "https://webscraper.io/test-sites/tables"
+
+        response = requests.get(url) # This wil give the html code for the page 
+        # print(response.status_code)
+        # print(response.content)
+
+        soup = bs(response.content.decode('utf-8'), 'html.parser')
+        # print(soup)
+
+
+        # # Working with HTML tags
+        # headings1 = soup.find_all('h1')
+        # headings2 = soup.find_all('h2')
+        # images = soup.find_all('img')
+        # images_src = soup.find_all('img')[0]['src']
+        # images_alt = soup.find_all('img')[0]['alt']
+
+        # print(headings1)
+        # print(headings2)
+        # print(images)
+        # print(images_src)
+        # print(images_alt)
+
+        # Working with tables
+        table1 = soup.find_all('table')[0]
+        table2 = soup.find_all('table')[1]
+        # print(table2)
+
+        table_rows = table2.find_all('tr')[1:]
+        # print(table_rows)
+
+        last_names = []
+        for row in table_rows:
+            last_name = row.find_all('td')[2].get_text()
+            # print(last_name)
+            last_names.append(last_name)
+            
+        print(last_names)
+            
+        # table_td = table_rows.find_all('td')
+        # print(table_td)
+
+
+BELOW IS A PROJECT ON HOW TO USE BEAUTIFULSOUP TO SCRAP WIKIPEDIA 
+
+        from bs4 import BeautifulSoup
+        import requests
+
+        url = "https://en.wikipedia.org/wiki/Python_(programming_language)"
+
+        response = requests.get(url)
+
+        soup = BeautifulSoup(response.content.decode('utf-8'), 'html.parser')
+
+        get_table = soup.find(class_='wikitable')
+
+        mutable = []
+        immutable = []
+
+        table_rows = get_table.find_all('tr')[1:]
+
+
+        for row in table_rows:
+            code = row.find_all('td')[1].get_text(strip=True)
+            code2 = row.find_all('td')[0].get_text(strip=True)
+            
+            if code == 'mutable':
+                mutable.append(code2)
+            else:
+                immutable.append(code2)
+
+
+        print(f'Mutable: {mutable}\n')
+        print(f'Immutable: {immutable}')
+

@@ -111,7 +111,7 @@ def send_email_notification(subject, message, recipient_list, attachment=None, e
                 open_tracking_img = f"<img src='{open_tracking_url}' width='1' height=1>"
                 new_message += open_tracking_img
 
-            email = EmailMessage(subject, new_message, from_email, to=recipient_list)
+            email = EmailMessage(subject, new_message, from_email, to=[recipient_list])
             
             if attachment is not None:
                 email.attach_file(attachment)

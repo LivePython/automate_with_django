@@ -24,6 +24,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'dal',
+    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'emails',
     'uploads',
     'image_compression',
+    'stockscrapper', # Adding the stockscrapping app
     'anymail' # this is used to add ESP like sendgrid API. pip install django-anymail
 ]
 

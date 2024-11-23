@@ -14,6 +14,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('emails/', include('emails.urls')),
+    path('stockscrapper/', include('stockscrapper.urls')),
     path('image-compression/', include('image_compression.urls')), # image-compression/compress
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # this is the setting for having a media file saved in media folder
